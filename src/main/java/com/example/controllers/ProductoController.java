@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entities.Producto;
+import com.example.model.FileUploadResponse;
 import com.example.services.ProductoService;
 import com.example.utilities.FileUploadUtil;
 
@@ -176,9 +177,23 @@ public class ProductoController {
           if(!file.isEmpty()) {
            String fileCode = fileUploadUtil.saveFile(file.getOriginalFilename(), file);
 
-           producto.setImagenProducto(fileCode+ "-" + file.getOriginalFilename());
+           producto.setImagenProducto(fileCode + "-" + file.getOriginalFilename());
+
+           // Devolver informacion respecto al file recibido
+
+           FileUploadResponse fileUploadResponse = FileUploadResponse
+                    .builder()
+                    .filename(fileCode + "-" + file.getOriginalFilename())
+                    .downloadURI("/productos/downloadFile" + fileCode + "-" + file.getOriginalFilename())
+                    .size(file.getSize())
+                    .build();
+
+                    responseAsMap.put("info de la imagen: ", fileUploadResponse);
 
           }
+
+          
+
           
           Producto productoDB = productoService.save(producto);
 
