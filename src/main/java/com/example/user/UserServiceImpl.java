@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
         if(theUser.isPresent()) {
             // Deberiamos devolver una exception personalizada
+            // pero como no existe no la ponemos.
+           // throw new UsernameNotFoundException(null);
             return null;
         }
 
